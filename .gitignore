@@ -1,0 +1,5 @@
+__pycache__/*
+bolsuite.python/__pycache__/*
+dist
+bolsuite.python.egg-info
+*.pyc
