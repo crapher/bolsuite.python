@@ -18,7 +18,7 @@ with io.open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='bolsuite.python',
-    version="0.1",
+    version="0.1.1",
     description='Python connector to Bolsuite Web API',
     long_description=long_description,
     url='https://github.com/crapher/bolsuite.python',

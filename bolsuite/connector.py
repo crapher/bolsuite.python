@@ -45,7 +45,7 @@ class Connector():
         
         df = pd.DataFrame()
 
-        def _get_level2_row(x, name='', suffix='', row={}):
+        def _get_level2_row(x, name, suffix, row):
             if type(x) is dict:
                 for key in x:
                     _get_level2_row(x[key], name + key, suffix, row)
@@ -67,8 +67,8 @@ class Connector():
                 
             return row
 
-        for item in json:        
-            row = _get_level2_row(item)
+        for item in json:
+            row = _get_level2_row(item, name='', suffix='', row={})
             df = df.append(row, ignore_index=True)
             
         return df
@@ -157,7 +157,7 @@ class Connector():
             
             lastupdate_columns = [c for c in df.columns if 'lastupdate' in c.lower()]
             df[lastupdate_columns] = df[lastupdate_columns].apply(pd.to_datetime, format='%Y-%m-%dT%H:%M:%S', errors='coerce')
-                        
+
             df.replace({'Settlement': {0: '', 1: 'Spot', 2: '24hs', 3: '48hs'}}, inplace=True)
             df.set_index(['Symbol', 'Settlement'], inplace=True)
 
