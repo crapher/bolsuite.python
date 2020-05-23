@@ -1,7 +1,7 @@
 import bolsuite as bs
 
 def test_connector():
-    bsc = bs.Connector("http://10.211.55.3:6091")
+    bsc = bs.Connector("http://10.211.55.11:6091")
     
     # Obtener todos los indices
     print(bsc.indices())
@@ -96,7 +96,19 @@ def test_connector():
     # Obtener una obligacion negociable filtrado por nombre y vencimiento
     print(bsc.corporate_bonds(ticker='BFCPO', settlement='48hs'))
     
-    # Obtener todos los ADRs
+    # Obtener todas los plazos por lotes
+    print(bsc.term_by_batches())
+    
+    # Obtener todas los plazos por lotes por vencimiento
+    print(bsc.term_by_batches(settlement='529')) 
+    
+    # Obtener un plazo pot lote filtrado por nombre
+    print(bsc.term_by_batches(ticker='AY24'))
+    
+    # Obtener un plazo pot lote filtrado por nombre y vencimiento
+    print(bsc.term_by_batches(ticker='AY24', settlement='630'))
+    
+    ## Obtener todos los ADRs
     print(bsc.adrs())
     
     # Obtener un ADR filtrado por nombre
@@ -108,11 +120,26 @@ def test_connector():
     # Obtener un par de divisas filtrado por nombre
     print(bsc.currency_pairs(ticker='USD-ARS'))
     
-    # Obtener todos los pares de divisas
+    # Obtener todos los commodities
     print(bsc.commodities())
     
-    # Obtener un ADR filtrado por nombre
-    print(bsc.commodities(ticker='Brent Oil'))
+    # Obtener un commodity filtrado por nombre
+    if not bsc.is_version_supported('2.20'):
+        print(bsc.commodities(ticker='Brent Oil'))
+    else:
+        print(bsc.commodities(ticker='CL=F'))
+    
+    # Obtener todos los indices mundiales
+    print(bsc.world_indices())
+    
+    # Obtener un indice mundial filtrado por nombre
+    print(bsc.world_indices(ticker='^DJI'))
+
+    ## Obtener todos los futuros de indices mundiales
+    print(bsc.world_indices_futures())
+    
+    # Obtener un futuro de indice mundial filtrado por nombre
+    print(bsc.world_indices_futures(ticker='ES=F'))
     
     # Obtener todos los activos del panel personal
     print(bsc.personal_portfolio())
@@ -121,7 +148,7 @@ def test_connector():
     print(bsc.personal_portfolio(ticker='COME'))
     	
     # Obtener la profundidad de mercado de los activos seleccionados
-    print(bsc.level_2_quotes(tickers=['GFGC102.AB','GFGC120.AB','GGAL']))
+    print(bsc.level_2_quotes(tickers=['GFGC102.JU','GFGC120.JU','GGAL']))
     
     # Obtener el historico intradiario de GGAL en formato tick
     print(bsc.intraday_quotes(ticker='GGAL'))

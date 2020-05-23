@@ -161,7 +161,26 @@ class Connector():
             df.replace({'Settlement': {0: '', 1: 'Spot', 2: '24hs', 3: '48hs'}}, inplace=True)
             df.set_index(['Symbol', 'Settlement'], inplace=True)
 
-        return df
+        return df        
+
+    def is_version_supported(self, version):
+        url = '{}/api/version'.format(self._base_url)
+        data = rq.get(url=url)
+        
+        if data.status_code == 404:
+            return False
+            
+        if data.status_code == rq.codes.ok:
+            data = data.json()
+            bs_version = data['version'].split('.')
+            us_version = version.split('.')
+            
+            if len(bs_version) < 2 or len(us_version) < 2:
+                return False
+
+            return int(bs_version[0]) > int(us_version[0]) or (int(bs_version[0]) == int(us_version[0]) and int(bs_version[1]) >= int(us_version[1]))
+            
+        data.raise_for_status()
         
     def indices(self, ticker = None):
         """
@@ -318,6 +337,26 @@ class Connector():
             url = '{}?settlement={}'.format(url, settlement)
 
         return self._get_common_panel(url)
+        
+    def term_by_batches(self, ticker = None, settlement = None):
+        """
+        :Parametros:
+            ticker : str
+                Opcional. Si se requiere obtener un ticker especifico
+                Default: None
+        """
+        if not self.is_version_supported('2.20'):
+            raise Exception('Current Bolsuite version does not support term by batches')
+        
+        if ticker is not None:
+            url = '{}/api/termbybatches/{}'.format(self._base_url, ticker)
+        else:
+            url = '{}/api/termbybatches'.format(self._base_url)
+        
+        if settlement is not None:
+            url = '{}?settlement={}'.format(url, settlement)
+
+        return self._get_common_panel(url)
 
     def adrs(self, ticker = None):
         """
@@ -360,7 +399,41 @@ class Connector():
             url = '{}/api/commodities'.format(self._base_url)
         
         return self._get_common_panel(url)
+        
+    def world_indices(self, ticker = None):
+        """
+        :Parametros:
+            ticker : str
+                Opcional. Si se requiere obtener un ticker especifico
+                Default: None
+        """
+        if not self.is_version_supported('2.20'):
+            raise Exception('Current Bolsuite version does not support world indices')
 
+        if ticker is not None:
+            url = '{}/api/worldindices/{}'.format(self._base_url, ticker)
+        else:
+            url = '{}/api/worldindices'.format(self._base_url)
+        
+        return self._get_common_panel(url)
+        
+    def world_indices_futures(self, ticker = None):
+        """
+        :Parametros:
+            ticker : str
+                Opcional. Si se requiere obtener un ticker especifico
+                Default: None
+        """
+        if not self.is_version_supported('2.20'):
+            raise Exception('Current Bolsuite version does not support world indices futures')
+            
+        if ticker is not None:
+            url = '{}/api/worldindicesfutures/{}'.format(self._base_url, ticker)
+        else:
+            url = '{}/api/worldindicesfutures'.format(self._base_url)
+        
+        return self._get_common_panel(url)
+        
     def personal_portfolio(self, ticker = None):
         """
         :Parametros:

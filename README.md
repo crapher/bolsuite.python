@@ -19,13 +19,13 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 	# Si bolsuite no se esta ejecutando en la misma computadora o esta configurado 
 	# en un puerto diferente se puede indicar en la URL como parametro
 	# bsc = bs.Connector(base_url="http://10.20.43.20:6091")
-	
+
 	# Obtener todos los indices
 	bsc.indices()
-	
+
 	# Obtener un indice filtrado por nombre
 	bsc.indices(ticker='MERVAL')
-	
+
 	# Obtener todas las acciones lideres
 	bsc.bluechips()
 
@@ -37,7 +37,7 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener una accion del panel de lideres filtrada por nombre y vencimiento
 	bsc.bluechips(ticker='PAMP', settlement='24hs')
-	
+
 	# Obtener todas las acciones del panel general
 	bsc.general_board()
 
@@ -61,7 +61,7 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener un cedear filtrado por nombre y vencimiento
 	bsc.cedear_stocks(ticker='C', settlement='48hs')
-	
+
 	# Obtener todos los bonos
 	bsc.government_bonds()
 
@@ -73,7 +73,7 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener un bono filtrado por nombre y vencimiento
 	bsc.government_bonds(ticker='AO20', settlement='24hs')
-	
+
 	# Obtener todas las letras
 	bsc.government_short_term_bonds()
 
@@ -85,13 +85,13 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener una letra filtrada por nombre y vencimiento
 	bsc.government_short_term_bonds(ticker='S11M0', settlement='Spot')
-	
+
 	# Obtener todas opciones de un subyacente
 	bsc.options(underlying_asset='GGAL')
-	
+
 	# Obtener todas las cauciones
 	bsc.repos()
-	
+
 	# Obtener todas las cauciones filtradas por dia
 	bsc.repos(days=7)
 
@@ -100,7 +100,7 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener una caucion filtrada por dia y por moneda
 	bsc.repos(days=1, currency='USD')
-	
+
 	# Obtener todas las obligaciones negociables
 	bsc.corporate_bonds()
 
@@ -112,40 +112,65 @@ La aplicacion cuenta con un solo modulo que se llama `connector` el cual permite
 
 	# Obtener una obligacion negociable filtrado por nombre y vencimiento
 	bsc.corporate_bonds(ticker='BFCPO', settlement='48hs')
-	
+
+    # Obtener todas los plazos por lotes (Version minima requerida: Bolsuite 2.20)
+    bsc.term_by_batches()
+   
+    # Obtener todas los plazos por lotes por vencimiento (Version minima requerida: Bolsuite 2.20)
+    bsc.term_by_batches(settlement='529')
+
+    # Obtener un plazo pot lote filtrado por nombre (Version minima requerida: Bolsuite 2.20)
+    bsc.term_by_batches(ticker='AY24')
+
+    # Obtener un plazo pot lote filtrado por nombre y vencimiento (Version minima requerida: Bolsuite 2.20)
+    bsc.term_by_batches(ticker='AY24', settlement='630')
+
 	# Obtener todos los ADRs
 	bsc.adrs()
-	
+
 	# Obtener un ADR filtrado por nombre
 	bsc.adrs(ticker='GGAL.O')
-	
+
 	# Obtener todos los pares de divisas
 	bsc.currency_pairs()
-	
+
 	# Obtener un par de divisas filtrado por nombre
 	bsc.currency_pairs(ticker='USD-ARS')
-	
-	# Obtener todos los pares de divisas
+
+	# Obtener todos los commodities
 	bsc.commodities()
-	
-	# Obtener un ADR filtrado por nombre
-	bsc.commodities(ticker='Brent Oil')
-	
+
+	# Obtener un commodity filtrado por nombre
+	bsc.commodities(ticker='Brent Oil') # (Hasta Bolsuite 2.12)
+	bsc.commodities(ticker='CL=F') # (Version minima requerida: Bolsuite 2.20)
+
+    # Obtener todos los indices mundiales (Version minima requerida: Bolsuite 2.20)
+    bsc.world_indices()
+   
+    # Obtener un indice mundial filtrado por nombre (Version minima requerida: Bolsuite 2.20)
+    bsc.world_indices(ticker='^DJI')
+
+    ## Obtener todos los futuros de indices mundiales (Version minima requerida: Bolsuite 2.20)
+    bsc.world_indices_futures()
+
+    # Obtener un futuro de indice mundial filtrado por nombre (Version minima requerida: Bolsuite 2.20)
+    bsc.world_indices_futures(ticker='ES=F')
+
 	# Obtener todos los activos del panel personal
 	bsc.personal_portfolio()
-	
+
 	# Obtener un activo del panel personal filtrado por nombre
 	bsc.personal_portfolio(ticker='COME')
-		
+
 	# Obtener la profundidad de mercado de los activos seleccionados
-	bsc.level_2_quotes(tickers=['GFGC102.AB','GFGC120.AB','GGAL'])
-	
+	bsc.level_2_quotes(tickers=['GFGC102.JU','GFGC120.JU','GGAL'])
+
 	# Obtener el historico intradiario de GGAL en formato tick
 	bsc.intraday_quotes(ticker='GGAL')
 
 	# Obtener el historico intradiario de GGAL agrupado cada 5 minutos
 	bsc.intraday_quotes(ticker='GGAL', timeframe=5)
-	
+
 	# Obtener el historico intradiario de GGAL agrupado cada 5 minutos 
 	# ordenado en forma descendente
 	bsc.intraday_quotes(ticker='GGAL', timeframe=5, sort=0)

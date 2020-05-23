@@ -3,3 +3,5 @@ bolsuite.python/__pycache__/*
 dist
 bolsuite.python.egg-info
 *.pyc
+.DS_Store
+bolsute/.DS_Store
